@@ -1,6 +1,6 @@
 ## AWS Cognito Integration with Django
 
-### Features
+### What you'll get : 
 #### 1. Signup and Account confirmation
 #### 2. Resend OTP for Account verification
 #### 3. Login
