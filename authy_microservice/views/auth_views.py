@@ -6,7 +6,6 @@ from rest_framework.response import Response
 from rest_framework import authentication, permissions
 from django.contrib.auth.models import User
 from authy_microservice.credentials import REGION_NAME, COGNITO_USER_CLIENT # USE .ENV FILE TO STORE CREDENTIALS
-from rest_framework_api_key.models import APIKey
 
 # Global Declaration
 client = boto3.client('cognito-idp', region_name=REGION_NAME)
