@@ -6,3 +6,6 @@
 #### 3. Login
 #### 4. Forgot Password
 #### 5. Change Password
+#### 6. Refresh Token
+#### 7. Get User Info from AWS Cognito
+#### 8. Integrated JWT Authentication with cognito by writing custom authentication method
