@@ -23,7 +23,7 @@ def get_username_from_access_token(access_token):
 
 def get_authorization_header(request):
         
-    auth = request.headers.get('Authorization')
+    auth = request.headers.get('JWTToken')
     return auth
 
 

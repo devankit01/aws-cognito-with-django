@@ -5,14 +5,18 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import authentication, permissions
 from django.contrib.auth.models import User
-from authy_microservice.credentials import REGION_NAME, COGNITO_USER_CLIENT # USE .ENV FILE TO STORE CREDENTIALS
+# USE .ENV FILE TO STORE CREDENTIALS
+from authy_microservice.credentials import REGION_NAME, COGNITO_USER_CLIENT
+from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework_api_key.permissions import HasAPIKey
 
 # Global Declaration
 client = boto3.client('cognito-idp', region_name=REGION_NAME)
 
 
-
 class SignupViewAPI(APIView):
+
+    permission_classes = [AllowAny]
 
     def post(self, request):
         email = request.POST.get('email', None)
@@ -21,10 +25,11 @@ class SignupViewAPI(APIView):
         try:
             client_response = client.sign_up(ClientId=COGNITO_USER_CLIENT, Username=email,
                                              Password=password)
-            user = User.objects.get_or_create(email=email, password=password, username=email)
+            user = User.objects.get_or_create(
+                email=email, password=password, username=email)
             response['message'] = 'User account created succesfully'
             response['status'] = 201
-            response['data'] : client_response
+            response['data']: client_response
 
         except client.exceptions.UsernameExistsException as e:
             response['error'] = 'email already exists'
@@ -35,18 +40,22 @@ class SignupViewAPI(APIView):
 
 class ResendConfirmationAPI(APIView):
 
+    permission_classes = [AllowAny]
+
     def post(self, request):
         email = request.POST.get('email', None)
 
         # Check if email exists the resend_confirmation_code
         response = client.resend_confirmation_code(ClientId=COGNITO_USER_CLIENT,
                                                    Username=email)
-        api_key, key = APIKey.objects.create_key(name="Dev")
-        print(api_key, key)
+        # api_key, key = APIKey.objects.create_key(name="Dev")
+        # print(api_key, key)
         return Response(response)
 
 
 class ConfirmAccountAPI(APIView):
+
+    permission_classes = [AllowAny]
 
     def post(self, request):
         email = request.POST.get('email', None)
@@ -75,6 +84,8 @@ class ConfirmAccountAPI(APIView):
 
 class SignInViewAPI(APIView):
 
+    permission_classes = [AllowAny]
+
     def post(self, request):
         email = request.POST.get('email', None)
         password = request.POST.get('password', None)
@@ -97,7 +108,10 @@ class SignInViewAPI(APIView):
             response['status'] = 401
         return Response(response)
 
+
 class RefreshTokenViewAPI(APIView):
+
+    permission_classes = [AllowAny]
 
     def post(self, request):
         refresh_token = request.POST.get('refresh_token', None)
@@ -119,7 +133,10 @@ class RefreshTokenViewAPI(APIView):
             response['status'] = 401
         return Response(response)
 
+
 class GetUserViewAPI(APIView):
+
+    permission_classes = [AllowAny]
 
     def post(self, request):
         access_token = request.POST.get('access_token', None)
@@ -143,6 +160,8 @@ class GetUserViewAPI(APIView):
 
 class ForgetPasswordAPIView(APIView):
 
+    permission_classes = [AllowAny]
+
     def post(self, request):
         email = request.POST.get('email', None)
 
@@ -154,6 +173,8 @@ class ForgetPasswordAPIView(APIView):
 
 
 class SetPasswordAPIView(APIView):
+
+    permission_classes = [AllowAny]
 
     def post(self, request):
         email = request.POST.get('email', None)
@@ -175,6 +196,8 @@ class SetPasswordAPIView(APIView):
 
 
 class ChangePasswordAPIView(APIView):
+
+    permission_classes = [AllowAny]
 
     def post(self, request):
         last_password = request.POST.get('last_password', None)
@@ -198,6 +221,8 @@ class ChangePasswordAPIView(APIView):
 
 class LogoutAPIView(APIView):
 
+    permission_classes = [AllowAny]
+
     def post(self, request):
         refresh_token = request.POST.get('refresh_token', None)
 
@@ -217,6 +242,8 @@ class LogoutAPIView(APIView):
 
 
 class DeleteUserAPIView(APIView):
+
+    permission_classes = [AllowAny]
 
     def post(self, request):
         access_token = request.POST.get('access_token', None)

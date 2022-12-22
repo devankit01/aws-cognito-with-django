@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'authy_microservice',
     'rest_framework',
+    'rest_framework_api_key'
 ]
 
 MIDDLEWARE = [
@@ -119,6 +120,11 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'AuthApp.authentication.BasicAuthentication',        
     ],
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework_api_key.permissions.HasAPIKey",
+        "rest_framework.permissions.AllowAny",
+
+    ]
 
 }
 
