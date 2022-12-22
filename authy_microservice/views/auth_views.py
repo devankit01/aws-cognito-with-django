@@ -8,12 +8,13 @@ from django.contrib.auth.models import User
 # USE .ENV FILE TO STORE CREDENTIALS
 from authy_microservice.credentials import REGION_NAME, COGNITO_USER_CLIENT
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from AuthApp.permissions import HasAPIKeyPersmission 
+from AuthApp.permissions import HasAPIKeyPermission 
 # Global Declaration
 client = boto3.client('cognito-idp', region_name=REGION_NAME)
 
 
 class SignupViewAPI(APIView):
+    permission_classes = [HasAPIKeyPermission]
 
 
     def post(self, request):
@@ -38,7 +39,7 @@ class SignupViewAPI(APIView):
 
 class ResendConfirmationAPI(APIView):
 
-    permission_classes = [AllowAny]
+    permission_classes = [HasAPIKeyPermission]
 
     def post(self, request):
         email = request.POST.get('email', None)
@@ -53,7 +54,7 @@ class ResendConfirmationAPI(APIView):
 
 class ConfirmAccountAPI(APIView):
 
-    permission_classes = [AllowAny]
+    permission_classes = [HasAPIKeyPermission]
 
     def post(self, request):
         email = request.POST.get('email', None)
@@ -82,7 +83,7 @@ class ConfirmAccountAPI(APIView):
 
 class SignInViewAPI(APIView):
 
-    permission_classes = [HasAPIKeyPersmission]
+    permission_classes = [HasAPIKeyPermission]
 
 
     def post(self, request):
@@ -110,7 +111,7 @@ class SignInViewAPI(APIView):
 
 class RefreshTokenViewAPI(APIView):
 
-    permission_classes = [AllowAny]
+    permission_classes = [HasAPIKeyPermission]
 
     def post(self, request):
         refresh_token = request.POST.get('refresh_token', None)
@@ -135,7 +136,7 @@ class RefreshTokenViewAPI(APIView):
 
 class GetUserViewAPI(APIView):
 
-    permission_classes = [AllowAny]
+    permission_classes = [HasAPIKeyPermission]
 
     def post(self, request):
         access_token = request.POST.get('access_token', None)
@@ -159,7 +160,7 @@ class GetUserViewAPI(APIView):
 
 class ForgetPasswordAPIView(APIView):
 
-    permission_classes = [AllowAny]
+    permission_classes = [HasAPIKeyPermission]
 
     def post(self, request):
         email = request.POST.get('email', None)
@@ -173,7 +174,7 @@ class ForgetPasswordAPIView(APIView):
 
 class SetPasswordAPIView(APIView):
 
-    permission_classes = [AllowAny]
+    permission_classes = [HasAPIKeyPermission]
 
     def post(self, request):
         email = request.POST.get('email', None)
@@ -200,7 +201,7 @@ class SetPasswordAPIView(APIView):
 
 class ChangePasswordAPIView(APIView):
 
-    permission_classes = [AllowAny]
+    permission_classes = [HasAPIKeyPermission]
 
     def post(self, request):
         last_password = request.POST.get('last_password', None)
@@ -224,7 +225,7 @@ class ChangePasswordAPIView(APIView):
 
 class LogoutAPIView(APIView):
 
-    permission_classes = [AllowAny]
+    permission_classes = [HasAPIKeyPermission]
 
     def post(self, request):
         refresh_token = request.POST.get('refresh_token', None)
@@ -246,7 +247,7 @@ class LogoutAPIView(APIView):
 
 class DeleteUserAPIView(APIView):
 
-    permission_classes = [AllowAny]
+    permission_classes = [HasAPIKeyPermission]
 
     def post(self, request):
         access_token = request.POST.get('access_token', None)

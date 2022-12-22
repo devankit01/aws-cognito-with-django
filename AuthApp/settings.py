@@ -121,7 +121,7 @@ REST_FRAMEWORK = {
         'AuthApp.authentication.BasicAuthentication',        
     ],
     "DEFAULT_PERMISSION_CLASSES": [
-        "AuthApp.permissions.HasAPIKeyPersmission",
+        "AuthApp.permissions.HasAPIKeyPermission",
         "rest_framework.permissions.AllowAny",
 
     ]

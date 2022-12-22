@@ -10,7 +10,7 @@ def get_authorization_header( request):
 
 
 # Custom Permissions for HasAPIKey and Passed as headers : Authorization
-class HasAPIKeyPersmission(permissions.BasePermission):
+class HasAPIKeyPermission(permissions.BasePermission):
 
     def has_permission(self, request, view):
 
