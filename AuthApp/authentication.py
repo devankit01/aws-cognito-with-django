@@ -7,7 +7,7 @@ from authy_microservice.credentials import REGION_NAME # USE .ENV FILE TO STORE 
 # Global Declaration
 client = boto3.client('cognito-idp', region_name=REGION_NAME)
 
-
+# Method to get username from access_token
 def get_username_from_access_token(access_token):
     try:
         client_response = client.get_user(AccessToken=access_token)
@@ -78,6 +78,5 @@ class BasicAuthentication(BaseAuthentication):
 
         if not user.is_active:
             raise exceptions.AuthenticationFailed("User is inactive")
-
 
         return user, None

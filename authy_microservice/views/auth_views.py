@@ -8,15 +8,13 @@ from django.contrib.auth.models import User
 # USE .ENV FILE TO STORE CREDENTIALS
 from authy_microservice.credentials import REGION_NAME, COGNITO_USER_CLIENT
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from rest_framework_api_key.permissions import HasAPIKey
-
+from AuthApp.permissions import HasAPIKeyPersmission 
 # Global Declaration
 client = boto3.client('cognito-idp', region_name=REGION_NAME)
 
 
 class SignupViewAPI(APIView):
 
-    permission_classes = [AllowAny]
 
     def post(self, request):
         email = request.POST.get('email', None)
@@ -84,7 +82,8 @@ class ConfirmAccountAPI(APIView):
 
 class SignInViewAPI(APIView):
 
-    permission_classes = [AllowAny]
+    permission_classes = [HasAPIKeyPersmission]
+
 
     def post(self, request):
         email = request.POST.get('email', None)
