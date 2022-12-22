@@ -184,11 +184,15 @@ class SetPasswordAPIView(APIView):
         try:
             client_response = client.confirm_forgot_password(
                 ClientId=COGNITO_USER_CLIENT, Username=email, Password=set_password, ConfirmationCode=confirm_code)
-            response['error'] = 'Password created successfulyy'
+            response['error'] = 'Password set successfully'
             response['status'] = 200
 
         except client.exceptions.CodeMismatchException:
             response['message'] = 'Invalid confirmation_code'
+            response['status'] = 401
+
+        except client.exceptions.ExpiredCodeException:
+            response['message'] = 'Expired confirmation_code'
             response['status'] = 401
 
         return Response(response)
